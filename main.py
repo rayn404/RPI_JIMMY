@@ -1,4 +1,4 @@
-import math
+qimport math
 from PCA9685 import PCA9685
 from ADC import *
 import time
@@ -143,26 +143,43 @@ class Ultrasonic:
 ultrasonic = Ultrasonic()
 PWM = Motor()
 
+speed=1000
+SPEED_MULT=0.15
+speed_mult=6
 
 def forward():
-    PWM.setMotorModel(2000, 2000, 2000, 2000)
+    PWM.setMotorModel(speed, speed, speed, speed)
 
 def reverse():
-    PWM.setMotorModel(-2000, -2000, -2000, -2000)  # Back
+    PWM.setMotorModel(-speed, -speed, -speed, -speed)  # Back
 
 def left():
-    PWM.setMotorModel(-500, -500, 2000, 2000)  # Left
+    PWM.setMotorModel(-speed//4, -speed//4, speed, speed)  # Left
 
 def right():
-    PWM.setMotorModel(2000, 2000, -500, -500)  # Right
+    PWM.setMotorModel(speed, speed, -speed//4, -speed//4)  # Right
 
 
 def stop():
     PWM.setMotorModel(0, 0, 0, 0)
 
-
+def distance():
+    ultrasonic.get_distance()
+    
+movements=['w': forward, 's':back, 'd':right, 'a': left, '':stop, ' ': distance]
+state=''
 if __name__ == '__main__':
     try:
-        forward()
+        option=input()[0]
+        try:
+            option=int(option)
+            speed_mult=option
+            speed=2000*speed_mult*SPEED_MULT
+            movements['']()
+            movements[state]()
+        except:
+            state=option
+            movements[state]()
+            
     except KeyboardInterrupt:  # When 'Ctrl+C' is pressed, the child program destroy() will be  executed.
         destroy()
