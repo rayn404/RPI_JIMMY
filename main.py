@@ -164,7 +164,7 @@ def stop():
     PWM.setMotorModel(0, 0, 0, 0)
 
 def distance():
-    ultrasonic.get_distance()
+    print("Distance:", ultrasonic.get_distance())
     
 movements=['w': forward, 's':back, 'd':right, 'a': left, '':stop, ' ': distance]
 state=''
